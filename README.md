@@ -50,3 +50,5 @@ The result for the project could be divided in two divisions :
 [4] <a href="https://www.researchgate.net/publication/328987822_Improving_Traffic_Light_Control_by_Means_of_Fuzzy_Logic">A. Vogel, I. Oremović, R. Šimić and E. Ivanjko, "Improving Traffic Light Control by Means of Fuzzy Logic," 2018 International Symposium ELMAR, 2018, pp. 51-56, doi: 10.23919/ELMAR.2018.8534692.</a>
 
 [5] <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7868350&isnumber=7868337">T. Osman, S. S. Psyche, J. M. Shafi Ferdous and H. U. Zaman, "Intelligent traffic management system for cross section of roads using computer vision," 2017 IEEE 7th Annual Computing and Communication Workshop and Conference (CCWC), 2017, pp. 1-7, doi: 10.1109/CCWC.2017.7868350.</a>
+
+Download the YoloV3 weights file from here : https://drive.google.com/file/d/1RuNsdS9MgumwTFwVqI9rwSQJwk8qSAQS/view?usp=sharing
