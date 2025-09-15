@@ -5,7 +5,7 @@ emoji: 🤗
 colorFrom: gray
 colorTo: indigo
 sdk: gradio
-app_file: simulation_app/app.py
+app_file: app.py
 pinned: false
 ---
 
