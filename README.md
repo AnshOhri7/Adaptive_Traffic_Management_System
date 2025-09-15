@@ -2,8 +2,8 @@
 ---
 title: Demo Space
 emoji: 🤗
-colorFrom: yellow
-colorTo: orange
+colorFrom: gray
+colorTo: indigo
 sdk: gradio
 app_file: simulation_app/app.py
 pinned: false
