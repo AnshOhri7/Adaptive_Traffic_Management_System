@@ -14,6 +14,16 @@ import threading
 import pygame
 import sys
 import os
+from PIL import Image
+import io
+
+os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
+os.environ.setdefault("SDL_AUDIODRIVER", "dummy")
+# optionally set XDG_RUNTIME_DIR to avoid the warning (create dir if missing)
+xdg = f"/tmp/{os.getuid()}-runtime"
+if not os.path.exists(xdg):
+    os.makedirs(xdg, mode=0o700, exist_ok=True)
+os.environ.setdefault("XDG_RUNTIME_DIR", xdg)
 
 # options={
 #    'model':'./cfg/yolo.cfg',     #specifying the path of model
@@ -86,6 +96,7 @@ gap = 15    # stopping gap
 gap2 = 15   # moving gap
 
 pygame.init()
+screen = pygame.display.set_mode((1400, 800))
 simulation = pygame.sprite.Group()
 
 class TrafficSignal:
@@ -424,7 +435,31 @@ def simulationTime():
             print('Total time passed: ',timeElapsed)
             print('No. of vehicles passed per unit time: ',(float(totalVehicles)/float(timeElapsed)))
             os._exit(1)
-    
+
+def render_frame_to_pil(surface):
+    # save to temporary bytes and open via PIL
+    buf = pygame.image.tostring(surface, "RGB")
+    img = Image.frombytes("RGB", surface.get_size(), buf)
+    return img
+
+def step_simulation_one_frame():
+    # perform one iteration of the main loop: update state, draw to surface, move vehicles
+    # replicate the code inside your while True main loop but only run once
+    # Example sketch:
+    screen.blit(background, (0,0))
+    # draw signals, texts, vehicles etc (same code as in your loop)
+    for vehicle in simulation:
+        screen.blit(vehicle.currentImage, [vehicle.x, vehicle.y])
+        vehicle.move()
+    # update timers / signals if you need
+    # return PIL image
+    return render_frame_to_pil(screen)
+
+# optional: a generator that yields N frames (for a short demo)
+def generate_frames(num_frames=200):
+    for _ in range(num_frames):
+        img = step_simulation_one_frame()
+        yield img    
 
 class Main:
     thread4 = threading.Thread(name="simulationTime",target=simulationTime, args=()) 
@@ -447,7 +482,8 @@ class Main:
     # Setting background image i.e. image of intersection
     background = pygame.image.load('images/mod_int.png')
 
-    screen = pygame.display.set_mode(screenSize)
+    # screen = pygame.display.set_mode(screenSize)
+    screen = pygame.Surface(screenSize)
     pygame.display.set_caption("SIMULATION")
 
     # Loading signal images and font
@@ -507,7 +543,8 @@ class Main:
             screen.blit(vehicle.currentImage, [vehicle.x, vehicle.y])
             # vehicle.render(screen)
             vehicle.move()
-        pygame.display.update()
+        # pygame.display.update()
+        pygame.image.save(screen, "frame.png")
 
 Main()
 
